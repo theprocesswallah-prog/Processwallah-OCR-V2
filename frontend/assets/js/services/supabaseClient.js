@@ -32,7 +32,6 @@ export function initializeSupabase() {
   console.groupEnd();
 
   if (!isValidUrl(url)) {
-    console.error('[Supabase] Invalid URL');
     return {
       client: null,
       status: 'Invalid URL',
@@ -41,7 +40,6 @@ export function initializeSupabase() {
   }
 
   if (!isValidKey(anonKey)) {
-    console.error('[Supabase] Invalid Key');
     return {
       client: null,
       status: 'Invalid Key',
@@ -52,8 +50,9 @@ export function initializeSupabase() {
   if (!supabaseClient) {
     supabaseClient = createClient(url, anonKey, {
       auth: {
-        persistSession: false,
-        autoRefreshToken: false
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: false
       }
     });
   }
@@ -74,7 +73,7 @@ export async function testConnection() {
   if (!client) {
     console.warn('[Supabase] Connection test failed', { status, message });
     return {
-      status,
+      status: 'Failed',
       message,
       latency: null,
       session: null
@@ -82,31 +81,31 @@ export async function testConnection() {
   }
 
   try {
-    const { data, error } = await client.from('profiles').select('id').limit(1);
     const latency = Math.round(performance.now() - startedAt);
+    const { data: { session }, error } = await client.auth.getSession();
 
     if (error) {
       console.error('[Supabase] Connection test error', error);
       return {
-        status: 'Disconnected',
+        status: 'Failed',
         message: error.message || 'Unable to connect to Supabase.',
         latency,
         session: null
       };
     }
 
-    console.info('[Supabase] Connection test succeeded', { latency, data });
+    console.info('[Supabase] Connection test succeeded', { latency, session });
     return {
       status: 'Connected',
-      message: 'Supabase connection established.',
+      message: 'Supabase client initialized successfully.',
       latency,
-      session: client.auth.getSession ? await client.auth.getSession() : null
+      session: session || null
     };
   } catch (error) {
-    console.error('[Supabase] Network Error', error);
+    console.error('[Supabase] Connection test failed', error);
     return {
-      status: 'Network Error',
-      message: error.message || 'Network request failed.',
+      status: 'Failed',
+      message: error.message || 'Connection test failed.',
       latency: Math.round(performance.now() - startedAt),
       session: null
     };

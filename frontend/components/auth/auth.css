@@ -1,0 +1,142 @@
+:root {
+  --bg-start: #f5f2ff;
+  --bg-end: #e8e0ff;
+  --card-bg: rgba(255,255,255,0.82);
+  --text: #2d1f57;
+  --muted: #6e6a8b;
+  --accent: #7c3aed;
+  --accent-strong: #5b21b6;
+  --border: rgba(124,58,237,0.16);
+}
+
+.auth-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+  color: var(--text);
+}
+
+.auth-card {
+  width: min(100%, 460px);
+  padding: 2rem;
+  border-radius: 28px;
+  background: var(--card-bg);
+  border: 1px solid rgba(255,255,255,0.7);
+  box-shadow: 0 24px 70px rgba(74,28,138,0.16);
+}
+
+.auth-header {
+  margin-bottom: 1.25rem;
+}
+
+.auth-header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.75rem;
+}
+
+.auth-header p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.auth-field label {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.auth-field input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.95rem 1rem;
+  background: rgba(255,255,255,0.9);
+  color: var(--text);
+  outline: none;
+}
+
+.auth-field input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(124,58,237,0.12);
+}
+
+.auth-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.auth-link {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.auth-button {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 0.95rem 1rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.auth-button:disabled {
+  opacity: 0.8;
+  cursor: progress;
+}
+
+.auth-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.auth-message {
+  min-height: 1.25rem;
+  font-size: 0.95rem;
+  color: var(--accent-strong);
+}
+
+.auth-footer {
+  margin-top: 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 560px) {
+  .auth-shell { padding: 1rem; }
+  .auth-card { padding: 1.25rem; }
+}
